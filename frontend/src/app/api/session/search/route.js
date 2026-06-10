@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import room from "@/app/models/room";
 
- await mongoose.connect("mongodb://localhost:27017/Chatapp").then(console.log("connected to db"));
+ await mongoose.connect("mongodb+srv://abhiramnalla2406_db_user:3jDXTSq6tyya4FkC@cluster0.0bsac1c.mongodb.net/Chatapp").then(console.log("connected to db"));
 const Model=room
  
 

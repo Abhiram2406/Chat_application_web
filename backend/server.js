@@ -4,7 +4,7 @@ import { createServer } from "http"
 import mongoose from "mongoose"
 import message from "./message.js"
 
-await mongoose.connect("mongodb://localhost:27017/Chatapp")
+await mongoose.connect("mongodb+srv://abhiramnalla2406_db_user:3jDXTSq6tyya4FkC@cluster0.0bsac1c.mongodb.net/Chatapp")
 const Model=message
 
 const app = express()

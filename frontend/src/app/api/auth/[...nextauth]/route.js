@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import mongoose from "mongoose";
 import users_info from "@/app/models/users_info";
 
-await mongoose.connect("mongodb://localhost:27017/Chatapp")
+await mongoose.connect("mongodb+srv://abhiramnalla2406_db_user:3jDXTSq6tyya4FkC@cluster0.0bsac1c.mongodb.net/Chatapp")
 const Model = users_info
 
 const handler=NextAuth({
