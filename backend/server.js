@@ -3,8 +3,10 @@ import { Server } from "socket.io"
 import { createServer } from "http"
 import mongoose from "mongoose"
 import message from "./message.js"
+import dotenv from "dotenv"
+dotenv.config()
 
-await mongoose.connect(process.env.MONGO_URI)
+await mongoose.connect(`${process.env.MONGO_URI}`)
 const Model=message
 
 const app = express()
