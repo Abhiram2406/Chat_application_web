@@ -1,10 +1,12 @@
 "use client"
+import { Suspense } from "react";
+import Loading from "@/app/components/loading";
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export default function({searchParams}) {
+function SearchPage({searchParams}) {
     const router=useRouter()
     const [checkpass, setcheckpass] = useState("");
     const [type,settype]=useState("")
@@ -94,4 +96,12 @@ export default function({searchParams}) {
         </div>
         </div>
     )
+}
+
+export default function Page() {
+    return (
+        <Suspense fallback={<Loading />}>
+            <SearchPage />
+        </Suspense>
+    );
 }

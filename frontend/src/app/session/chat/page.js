@@ -1,4 +1,6 @@
 "use client"
+export const dynamic = "force-dynamic";
+import { Suspense } from "react";
 import Reply from "../../components/reply";
 import Message from "../../components/message";
 import { Send,Share2,Users,ArrowRight } from "@deemlol/next-icons";
@@ -9,7 +11,7 @@ import { io } from "socket.io-client";
 import Loading from "@/app/components/loading";
 import { Trash2 } from "@deemlol/next-icons"
 import { useRouter } from "next/navigation";
-export default function() {
+function ChatPage(){
     const router=useRouter()
     const [room_user_id,setroom_user_id]=useState("")
     const [socket,setsocket]=useState(null)
@@ -110,4 +112,12 @@ export default function() {
         </div>
         </div>
     )
+}
+
+export default function Page() {
+    return (
+        <Suspense fallback={<Loading />}>
+            <ChatPage />
+        </Suspense>
+    );
 }
