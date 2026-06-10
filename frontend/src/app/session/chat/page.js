@@ -59,7 +59,7 @@ export default function() {
     },[])
 
     if (status === "loading") {
-        return
+        return <Loading/>
     }
     const sendmessage=()=>{
         if (!socket || !sender_user_id || !msg) return
@@ -97,7 +97,7 @@ export default function() {
         </div>
         <div className="flex-1 overflow-y-auto scrollbar-hide px-2">
             {chats.map(e=>{
-                if(e.sender===session.user.email) {
+                if(e.sender===session?.user?.email) {
                     return <Message key={e._id} time={e.created_at} text={e.text}></Message>
                 }else{
                     return <Reply key={e._id} user={e.sender_user_id} time={e.created_at} text={e.text}></Reply>
