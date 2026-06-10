@@ -3,7 +3,7 @@ import users_info from "@/app/models/users_info";
 import room from "@/app/models/room";
 import message from "@/app/models/message";
 
-await mongoose.connect("mongodb+srv://abhiramnalla2406_db_user:3jDXTSq6tyya4FkC@cluster0.0bsac1c.mongodb.net/Chatapp")
+await mongoose.connect(process.env.MONGO_URI)
 const Model = users_info
 const Model2= room
 const Model3=message

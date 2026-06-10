@@ -3,7 +3,7 @@ import users_info from "@/app/models/users_info"
 import room from "@/app/models/room"
 
 export async function GET(req) {
-    await mongoose.connect("mongodb+srv://abhiramnalla2406_db_user:3jDXTSq6tyya4FkC@cluster0.0bsac1c.mongodb.net/Chatapp")
+    await mongoose.connect(process.env.MONGO_URI)
     const Model=users_info
     const {searchParams}=new URL(req.url)
     const id=searchParams.get("id")
