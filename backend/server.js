@@ -8,6 +8,7 @@ dotenv.config()
 
 await mongoose.connect(`${process.env.MONGO_URI}`)
 const Model=message
+const PORT=process.env.PORT || 4000
 
 const app = express()
 const httpServer=createServer(app)
@@ -44,4 +45,4 @@ io.on("connection",(socket)=>{
 })
 
 console.log("server listening on 4000")
-httpServer.listen(4000)
+httpServer.listen(PORT)
