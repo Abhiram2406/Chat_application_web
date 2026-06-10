@@ -62,7 +62,7 @@ export default function() {
       <div className={ClassDeciderSignin}>
         <h1 className='text-center text-white font-[400] text-4xl p-[10px]'>Sign In</h1>
         <div className='flex flex-col gap-2 min-w-90/100'>
-        <input onChange={(e)=>setusername(e.target.value)} type="email" name="username" id="username" placeholder='Enter your username' className='border-[2px] border-sky-900 p-2 rounded-3xl min-w-80/100'/>
+        <input onChange={(e)=>setusername(e.target.value)} type="email" name="username" id="username" placeholder='Enter your email' className='border-[2px] border-sky-900 p-2 rounded-3xl min-w-80/100'/>
         <input onChange={(e)=>setpassword(e.target.value)} type="password" name="password" id="password" placeholder='Enter your password'className='border-[2px] border-sky-900 p-2 rounded-3xl min-w-80/100'/>
         <button onClick={call} className=' text-center mt-4 bg-sky-800 text-white p-3 rounded-3xl cursor-pointer'>Log In</button>
       </div>
@@ -71,7 +71,7 @@ export default function() {
       <div className={ClassDeciderSignup}>
         <h1 className='text-center text-gray-400 font-[400] text-4xl p-[10px]'>Sign Up</h1>
         <div className='flex flex-col gap-2 min-w-90/100'>
-        <input onChange={(e)=>setusername(e.target.value)} type="email" name="username" id="username" placeholder='Enter your username' className='border-[2px] border-sky-900 p-2 rounded-3xl min-w-80/100'/>
+        <input onChange={(e)=>setusername(e.target.value)} type="email" name="username" id="username" placeholder='Enter your email' className='border-[2px] border-sky-900 p-2 rounded-3xl min-w-80/100'/>
         <input onChange={(e)=>setpassword(e.target.value)} type="password" name="password" id="password" placeholder='Set your password'className='border-[2px] border-sky-900 p-2 rounded-3xl min-w-80/100'/>
         <input onChange={(e)=>setfirst_name(e.target.value)} type="text" name="password" id="password" placeholder='First Name'className='border-[2px] border-sky-900 p-2 rounded-3xl min-w-80/100'/>
         <input onChange={(e)=>setlast_name(e.target.value)} type="text" name="password" id="password" placeholder='Last Name'className='border-[2px] border-sky-900 p-2 rounded-3xl min-w-80/100'/>

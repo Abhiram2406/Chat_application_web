@@ -43,7 +43,7 @@ export default function() {
         req()
     },[id,session])
     useEffect(()=>{
-        const sock = io("http://10.89.197.212:4000");
+        const sock = io("https://chatapplicationwebserver-production.up.railway.app/");
         setsocket(sock)
         sock.on("connect",()=>{
             console.log(sock.id)
