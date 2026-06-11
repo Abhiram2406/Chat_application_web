@@ -5,11 +5,11 @@ import Sidebar from "../components/sidebar";
 export default function RootLayout({ children }) {
   return (
       
-        <div className="flex">
+        <div className="flex min-h-screen flex-col md:flex-row">
           <SessionProvider>
         <Sidebar></Sidebar>
         </SessionProvider>
-        <div className="flex-1">
+        <div className="min-w-0 flex flex-1 flex-col">
         <SessionProvider>
         {children}
         </SessionProvider>

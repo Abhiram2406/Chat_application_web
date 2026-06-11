@@ -46,35 +46,35 @@ export default function Home() {
     signOut({ callbackUrl: "/" });
   }
   return (
-    <div className="min-h-screen bg-gray-600 flex items-center justify-center relative px-4">
+    <div className="min-h-screen bg-gray-600 flex items-center justify-center relative px-4 py-6">
 
       {/* Logged In Badge */}
       
 
       {/* Profile Card */}
-      <div className="bg-white w-full max-w-md rounded-3xl shadow-xl p-8">
+      <div className="bg-white w-full max-w-md rounded-3xl shadow-xl p-5 sm:p-8">
 
         {/* Profile Header */}
         <div className="flex flex-col items-center mb-6">
           <div className="bg-gray-200 rounded-full p-6 mb-4">
             <User size={48} color="#374151" />
           </div>
-          <div className="text-[#1D546D] text-2xl italic">{firstname} {lastname}</div>
+          <div className="text-center text-[#1D546D] text-xl sm:text-2xl italic break-words">{firstname} {lastname}</div>
         </div>
 
         <div className="space-y-4">
 
-          <div className="flex items-center gap-3 text-gray-700">
+          <div className="flex items-center gap-3 text-gray-700 min-w-0">
             <Mail size={20} />
-            <span>{email}</span>
+            <span className="min-w-0 break-all">{email}</span>
           </div>
 
-          <div className="flex items-center gap-3 text-gray-700">
+          <div className="flex items-center gap-3 text-gray-700 min-w-0">
             <AlertCircle size={20} />
-            <span>{userid}</span>
+            <span className="min-w-0 break-all">{userid}</span>
           </div>
 
-          <div className="flex items-center gap-3 text-gray-700">
+          <div className="flex items-center gap-3 text-gray-700 min-w-0">
             <MessageSquare size={20} />
             <span>Version: {Math.random().toFixed(1)}.{Math.random().toFixed(2)}</span>
           </div>

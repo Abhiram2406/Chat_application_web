@@ -66,25 +66,25 @@ function SearchPage({searchParams}) {
 
     if(nodataa) {
         return (
-            <div className="bg-[#1D546D] h-screen p-4.5 flex justify-center items-center opacity-80 text-4xl">
+            <div className="bg-[#1D546D] min-h-screen p-4 flex justify-center items-center opacity-80 text-center text-2xl sm:text-4xl">
                 !!Room Not Found!!
             </div>
         )
     }
 
     return(
-        <div className="bg-[#1D546D] h-screen p-4.5">
+        <div className="bg-[#1D546D] min-h-screen p-4 sm:p-5">
         <h1 className="text-2xl font-bold text-white">Available Rooms</h1>
         <br></br>
         <div className="bg-gray-400 rounded">
         <div className="flex flex-col p-2  border-black overflow-hidden">
-            <div className="flex items-start font-semibold"><div>{name}</div></div>
+            <div className="flex items-start font-semibold"><div className="break-words">{name}</div></div>
             <div className="flex flex-col items-start mb-2">
-                <div>Type: {type}</div>
-                <div>ID: {id}</div>
+                <div className="break-all">Type: {type}</div>
+                <div className="break-all">ID: {id}</div>
             </div>
             {isprivate && (
-                <input onChange={(e)=>setpassword(e.target.value)} className="bg-black opacity-50 p-1 w-[25%] text-white" type="text" name="room_pass" placeholder="Enter password" id="room_pass" />
+                <input onChange={(e)=>setpassword(e.target.value)} className="bg-black opacity-50 p-2 w-full max-w-sm text-white" type="text" name="room_pass" placeholder="Enter password" id="room_pass" />
             )}
             <button onClick={validate_request} className="flex m-2 justify-start">
         <div className=" hover: cursor-pointer flex items-center justify-start gap-2 bg-green-500 text-white px-4 py-1.5">

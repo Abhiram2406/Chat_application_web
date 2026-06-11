@@ -123,14 +123,14 @@ export default function() {
     let plus=isplus?"flex flex-col gap-1.5":"hidden"
     if(ison) {
     return (
-        <div className="bg-[#F3F4F4] w-1/4">
-            <div className="h-screen w-full flex flex-col bg-[#061E29] pt-8 px-2">
+        <div className="bg-[#F3F4F4] w-full md:max-h-fit md:sticky md:top-0 md:w-80 md:shrink-0 lg:w-1/4">
+            <div className="h-[45vh] min-h-96 w-full flex flex-col bg-[#061E29] pt-4 sm:pt-8 px-2 md:h-screen">
             <div className="flex gap-1.5 items-center justify-between">
             <button onClick={handlesetison} className="hover:cursor-pointer"><AlignJustify className="ml-1" size={28} color="#FFFFFF" /></button>
-            <input onChange={(e)=>{setsearch_params(e.target.value)}} onKeyDown={(e)=>checkkey(e)} type="text" name="searchbar" id="searchbar" placeholder="Search for a room to join" className="flex-1 border text-white border-white rounded-full px-2 bg-gray-500 opacity-50"/>
+            <input onChange={(e)=>{setsearch_params(e.target.value)}} onKeyDown={(e)=>checkkey(e)} type="text" name="searchbar" id="searchbar" placeholder="Search for a room to join" className="min-w-0 flex-1 border text-white border-white rounded-full px-2 bg-gray-500 opacity-50"/>
             <button onClick={search_for_room} className="hover: cursor-pointer"><Search size={24} color="#FFFFFF" /></button>
             </div>
-            <section className="bg-[#1D546D] h-[15%] w-full rounded-2xl flex items-center justify-between pt-[5%] pb-[5%] px-[3%] mt-2 mb-1">
+            <section className="bg-[#1D546D] w-full rounded-2xl flex flex-col gap-3 items-start justify-between px-3 py-3 mt-2 mb-1 sm:flex-row sm:items-center">
                 <div className="flex gap-2">
                 <button onClick={handlesetisplus} className="bg-black rounded-4xl hover:cursor-pointer"><PlusCircle size={44} color="#FFFFFF" /></button>
                 <div className={plus}>
@@ -146,11 +146,11 @@ export default function() {
                         onClick={() => setpublic_room(false)}
                     />
 
-                    <div className="z-100 bg-white p-6 rounded-xl shadow-xl w-[30%]">
+                    <div className="z-100 bg-white p-5 sm:p-6 rounded-xl shadow-xl w-[92%] max-w-md">
                         <h2 className="text-xl font-bold m-2 text-center">Public Room</h2>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                         <label htmlFor="publicroomname">Room Name</label>
-                        <input onChange={(e)=>setroomname(e.target.value)} type="text" name="Room-name" id="publicroomname" className="border-2 border-dashed flex-1 w-auto text-left px-1 rounded-3xl border-black" />
+                        <input onChange={(e)=>setroomname(e.target.value)} type="text" name="Room-name" id="publicroomname" className="border-2 border-dashed flex-1 min-w-0 w-full text-left px-2 py-1 rounded-3xl border-black" />
                         </div>
                         <div className="flex justify-between">
                         <button onClick={make_publicroom}
@@ -177,15 +177,15 @@ export default function() {
                         onClick={() => setprivate_room(false)}
                     />
 
-                    <div className="z-100 bg-white p-6 rounded-xl shadow-xl w-[30%]">
+                    <div className="z-100 bg-white p-5 sm:p-6 rounded-xl shadow-xl w-[92%] max-w-md">
                         <h2 className="text-xl font-bold m-2 text-center">Private Room</h2>
-                        <div className="flex gap-2 mb-2">
+                        <div className="flex flex-col gap-2 mb-2 sm:flex-row sm:items-center">
                         <label htmlFor="publicroomname">Room Name</label>
-                        <input onChange={(e)=>setroomname(e.target.value)} type="text" name="Room-name" id="privateroomname" className="border-2 border-dashed flex-1 w-auto text-center rounded-3xl border-black" />
+                        <input onChange={(e)=>setroomname(e.target.value)} type="text" name="Room-name" id="privateroomname" className="border-2 border-dashed flex-1 min-w-0 w-full text-center px-2 py-1 rounded-3xl border-black" />
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                         <label htmlFor="privatepassword">Set Password</label>
-                        <input onChange={(e)=>setroompass(e.target.value)} type="text" name="Room-name" id="privatepassword" className="border-2 border-dashed flex-1 w-auto text-center rounded-3xl border-black" />
+                        <input onChange={(e)=>setroompass(e.target.value)} type="text" name="Room-name" id="privatepassword" className="border-2 border-dashed flex-1 min-w-0 w-full text-center px-2 py-1 rounded-3xl border-black" />
                         </div>
                         <div className="flex justify-between">
                         <button onClick={make_privateroom}
@@ -204,7 +204,7 @@ export default function() {
 
                     </div>
                 )}
-                <div className="text-xl text-white font-bold">Hello, <button onClick={redirect_profile} className=" hover:cursor-pointer italic underline text-[#E1D9BC]">{name} !!</button></div>
+                <div className="text-base sm:text-xl text-white font-bold">Hello, <button onClick={redirect_profile} className=" hover:cursor-pointer italic underline text-[#E1D9BC]">{name} !!</button></div>
             </section>
             <section className="bg-gray-400 my-2 rounded-t-2xl flex-1 p-2 max-h-3/4 overflow-hidden">
                 <div className="flex sticky top-0">
@@ -235,8 +235,8 @@ export default function() {
     )
     }else{
         return(
-            <section>
-                <div className="h-screen w-auto inline-block pt-8 px-2 bg-[#061E29]">
+            <section className="w-full md:w-auto">
+                <div className="h-14 w-full pt-3 px-2 bg-[#061E29] md:h-screen md:w-auto md:pt-8">
             <button onClick={handlesetison} className="hover:cursor-pointer"><AlignJustify className="ml-1" size={28} color="#FFFFFF" /></button>
                 </div>
             </section>

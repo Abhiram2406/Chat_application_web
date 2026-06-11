@@ -4,7 +4,8 @@ import { Suspense } from "react";
 import Reply from "../../components/reply";
 import Message from "../../components/message";
 import { Send,Share2,Users,ArrowRight } from "@deemlol/next-icons";
-import { useEffect, useState } from "react";
+import { useRef } from "react";
+import { useEffect, useState} from "react";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { io } from "socket.io-client";
@@ -22,6 +23,7 @@ function ChatPage(){
     const searchParams = useSearchParams();
     const {data:session,status}=useSession()
     const id = searchParams.get("id");
+    const bottomRef=useRef(null)
     
     useEffect(()=>{
         const req=async()=>{
@@ -44,6 +46,9 @@ function ChatPage(){
         }
         req()
     },[id,session])
+    useEffect(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" })
+    }, [chats])
     useEffect(()=>{
         const sock = io("https://chatapplicationwebserver-production.up.railway.app/");
         setsocket(sock)
@@ -52,7 +57,7 @@ function ChatPage(){
         })
         sock.emit("join_room",id)
         sock.on("reply",(arg1)=>{
-            setchats(prev=>[arg1,...prev])
+            setchats(prev=>[...prev,arg1])
         })
         return ()=>{
             sock.disconnect()
@@ -83,21 +88,21 @@ function ChatPage(){
     }
     
     return(
-        <div className="flex flex-col h-screen">
-        <div className="flex items-center justify-between gap-2 mb-1 p-3 border-b">
-            <div className="flex items-center gap-2">
+        <div className="flex min-h-0 flex-1 flex-col">
+        <div className="flex flex-col gap-3 mb-1 p-3 border-b sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex min-w-0 items-center gap-2">
                 <button onClick={deletechat} className="hover:cursor-pointer"><Trash2></Trash2></button>
-                <Share2  size={24} color="#1D546D" /><span className="p-1.5 bg-[#22617e] rounded-r-3xl">{room_user_id}</span>
+                <Share2  size={24} color="#1D546D" /><span className="min-w-0 break-all p-1.5 bg-[#22617e] rounded-r-3xl text-sm sm:text-base">{room_user_id}</span>
             
             </div>
             
-            <div className="flex items-center flex-row-reverse gap-2"><Users size={24} color="#1D546D" /><div className="bg-gray-500 rounded-3xl scrollbar-hide overflow-x-auto w-3xs p-2 h-9 flex gap-2">
+            <div className="flex min-w-0 items-center flex-row-reverse justify-end gap-2 sm:justify-start"><Users size={24} color="#1D546D" /><div className="bg-gray-500 rounded-3xl scrollbar-hide overflow-x-auto w-full max-w-3xs p-2 h-9 flex gap-2">
                 {participants.map(e => (
-                <span key={e}>{e} </span>
+                <span className="shrink-0" key={e}>{e} </span>
                 ))}
                 </div><ArrowRight size={16} color="#1D546D" /><span className="bg-gray-500 rounded-full p-2">{participants.length}</span></div>
         </div>
-        <div className="flex-1 overflow-y-auto scrollbar-hide px-2">
+        <div className="flex-1 overflow-y-auto scrollbar-hide px-2 pb-20 md:max-h-screen">
             {chats.map(e=>{
                 if(e.sender===session?.user?.email) {
                     return <Message key={e._id} time={e.created_at} text={e.text}></Message>
@@ -105,10 +110,11 @@ function ChatPage(){
                     return <Reply key={e._id} user={e.sender_user_id} time={e.created_at} text={e.text}></Reply>
                 }
         })}
+        <div className="opacity-0" ref={bottomRef}>----</div>
         </div>
-        <div className="flex items-center gap-2 p-3 border-t">
-            <input onChange={(e)=>setmsg(e.target.value)} onKeyDown={(e)=>checkkey(e)} type="text" name="msg" id="msg" placeholder="Enter a message" className="border-2 border-dashed w-[95%] text-left px-1.5 rounded-3xl align-bottom border-black" value={msg} />
-            <button onClick={sendmessage} className=" p-0.6 hover:cursor-pointer"><Send size={24} color="#1D546D" /></button>
+        <div className="fixed bottom-0 left-0 right-0 z-30 flex items-center gap-2 border-t bg-white p-3 md:left-80 lg:left-1/4">
+            <input onChange={(e)=>setmsg(e.target.value)} onKeyDown={(e)=>checkkey(e)} type="text" name="msg" id="msg" placeholder="Enter a message" className="min-w-0 flex-1 border-2 border-dashed text-left px-3 py-2 rounded-3xl align-bottom border-black" value={msg} />
+            <button onClick={sendmessage} className="shrink-0 p-0.6 hover:cursor-pointer"><Send size={24} color="#1D546D" /></button>
         </div>
         </div>
     )
