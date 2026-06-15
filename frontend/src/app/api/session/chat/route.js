@@ -7,6 +7,6 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url)
     const id = searchParams.get("id")
     console.log(id)
-    const requ=await Model.find({room:id}).sort({ created_at: -1 })
+    const requ=await Model.find({room:id}).sort({ created_at:1 })
     return Response.json(requ)
 }
