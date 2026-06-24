@@ -20,6 +20,14 @@ const msgSchema = new mongoose.Schema({
   text: {
     type: String,
     required:true
+  },
+  text_iv:{
+    type:String,
+    required:true
+  },
+  auth_tag:{
+    type:String,
+    required:true
   }
 });
 

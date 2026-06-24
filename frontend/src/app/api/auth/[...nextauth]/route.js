@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import users_info from "@/app/models/users_info";
 
 
-await mongoose.connect(process.env.MONGO_URI)
+await mongoose.connect(`${process.env.MONGO_URI}`)
 const Model = users_info
 
 const handler=NextAuth({

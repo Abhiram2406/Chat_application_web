@@ -3,7 +3,7 @@ import users_info from "@/app/models/users_info";
 import room from "@/app/models/room";
 import message from "@/app/models/message";
 
-await mongoose.connect(process.env.MONGO_URI)
+await mongoose.connect(`${process.env.MONGO_URI}`)
 const Model = users_info
 const Model2= room
 const Model3=message

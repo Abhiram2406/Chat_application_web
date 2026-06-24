@@ -37,8 +37,6 @@ export default function() {
             if(dett.ok) {
             const det =await dett.json()
             setrooms(det)
-            console.log(det)
-            console.log(rooms)
             }
         }}
         details()
@@ -123,7 +121,7 @@ export default function() {
     let plus=isplus?"flex flex-col gap-1.5":"hidden"
     if(ison) {
     return (
-        <div className="bg-[#F3F4F4] w-full md:max-h-fit md:sticky md:top-0 md:w-80 md:shrink-0 lg:w-1/4">
+        <div className="bg-[#F3F4F4] w-full md:max-h-fit md:sticky md:top-0 md:z-40 md:w-80 md:shrink-0 lg:w-1/4">
             <div className="h-[45vh] min-h-96 w-full flex flex-col bg-[#061E29] pt-4 sm:pt-8 px-2 md:h-screen">
             <div className="flex gap-1.5 items-center justify-between">
             <button onClick={handlesetison} className="hover:cursor-pointer"><AlignJustify className="ml-1" size={28} color="#FFFFFF" /></button>
@@ -146,7 +144,7 @@ export default function() {
                         onClick={() => setpublic_room(false)}
                     />
 
-                    <div className="z-100 bg-white p-5 sm:p-6 rounded-xl shadow-xl w-[92%] max-w-md">
+                    <div className="z-[100] bg-white p-5 sm:p-6 rounded-xl shadow-xl w-[92%] max-w-md">
                         <h2 className="text-xl font-bold m-2 text-center">Public Room</h2>
                         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                         <label htmlFor="publicroomname">Room Name</label>
@@ -177,7 +175,7 @@ export default function() {
                         onClick={() => setprivate_room(false)}
                     />
 
-                    <div className="z-100 bg-white p-5 sm:p-6 rounded-xl shadow-xl w-[92%] max-w-md">
+                    <div className="z-[100] bg-white p-5 sm:p-6 rounded-xl shadow-xl w-[92%] max-w-md">
                         <h2 className="text-xl font-bold m-2 text-center">Private Room</h2>
                         <div className="flex flex-col gap-2 mb-2 sm:flex-row sm:items-center">
                         <label htmlFor="publicroomname">Room Name</label>

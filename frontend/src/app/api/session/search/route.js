@@ -1,13 +1,11 @@
 import mongoose from "mongoose";
 import room from "@/app/models/room";
 
- await mongoose.connect(process.env.MONGO_URI).then(console.log("connected to db"));
+ await mongoose.connect(process.env.MONGO_URI);
 const Model=room
  
 
 export async function GET(request) {
-
-  console.log("request occhindi")
     const getparams= new URL(request.url)
     const roomid=getparams.searchParams.get("id");
     const details=await Model.findOne({id:roomid})

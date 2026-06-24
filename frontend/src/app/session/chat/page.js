@@ -50,13 +50,28 @@ function ChatPage(){
         bottomRef.current?.scrollIntoView({ behavior: "smooth" })
     }, [chats])
     useEffect(()=>{
-        const sock = io("https://chatapplicationwebserver-production.up.railway.app/");
+        console.log(process.env.NEXT_PUBLIC_SERVER_URL)
+        const sock = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
         setsocket(sock)
         sock.on("connect",()=>{
             console.log(sock.id)
         })
         sock.emit("join_room",id)
-        sock.on("reply",(arg1)=>{
+        sock.on("reply",async (arg1)=>{
+                const res = await fetch("/api/session/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    iv:arg1.text_iv,
+                    tag:arg1.auth_tag,
+                    cipher:arg1.text
+                })
+                });
+
+                const data = await res.json();
+                arg1.text=data
             setchats(prev=>[...prev,arg1])
         })
         return ()=>{
@@ -86,6 +101,8 @@ function ChatPage(){
             sendmessage()
         }
     }
+    
+    
     
     return(
         <div className="flex min-h-0 flex-1 flex-col">
