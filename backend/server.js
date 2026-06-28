@@ -17,9 +17,11 @@ const encrypt_secret= Buffer.from(
 
 const app = express()
 const httpServer=createServer(app)
+console.log(`${process.env.CLIENT_URL}`)
 const io=new Server(httpServer,{
     cors: {
-    origin: [
+    origin:
+    [
       `${process.env.CLIENT_URL}`
     ]
   }
@@ -55,6 +57,9 @@ io.on("connection",(socket)=>{
         }catch(err) {
             console.log(err)
         }
+    })
+    socket.on("typing_indicator",(msg,sender_id,room_id)=>{
+        io.to(room_id).emit("typing_indicator_update",sender_id,msg)
     })
 })
 

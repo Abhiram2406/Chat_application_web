@@ -10,8 +10,11 @@ import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { io } from "socket.io-client";
 import Loading from "@/app/components/loading";
+import Typing_indicator from "@/app/components/typing_indicator";
 import { Trash2 } from "@deemlol/next-icons"
 import { useRouter } from "next/navigation";
+
+
 function ChatPage(){
     const router=useRouter()
     const [room_user_id,setroom_user_id]=useState("")
@@ -23,6 +26,8 @@ function ChatPage(){
     const searchParams = useSearchParams();
     const {data:session,status}=useSession()
     const id = searchParams.get("id");
+    const [typing_users,settyping_users]=useState(new Set())
+    const [hidden,sethidden]=useState(true)
     const bottomRef=useRef(null)
     
     useEffect(()=>{
@@ -38,23 +43,22 @@ function ChatPage(){
             }
             setroom_user_id(room_id.id)
             setchats(reque)
-            const store=new Set()
-            reque.forEach(e => {
-                store.add(e.sender_user_id)
-            });
-            setparticipants([...store])
         }
         req()
     },[id,session])
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" })
-    }, [chats])
+        // const store=new Set()
+        //     chats.forEach(e => {
+        //         store.add(e.sender_user_id)
+        //     });
+            setparticipants([typing_users])
+    }, [chats,typing_users])
     useEffect(()=>{
-        console.log(process.env.NEXT_PUBLIC_SERVER_URL)
+        if (!sender_user_id) return;
         const sock = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
         setsocket(sock)
         sock.on("connect",()=>{
-            console.log(sock.id)
         })
         sock.emit("join_room",id)
         sock.on("reply",async (arg1)=>{
@@ -74,11 +78,30 @@ function ChatPage(){
                 arg1.text=data
             setchats(prev=>[...prev,arg1])
         })
+        sock.on("typing_indicator_update",(sender_id,msg)=>{
+            if(msg=="close" && sender_id!=sender_user_id) {
+                settyping_users(prev=>{
+                    let temp=new Set(prev);
+                    temp.delete(sender_id);
+                    return temp;
+                })
+                if(typing_users.size===0) {
+                    sethidden(true)
+                }
+            }else if(msg=="open" && sender_id!=sender_user_id) {
+                settyping_users(prev=>{
+                    let temp=new Set(prev);
+                    temp.add(sender_id);
+                    return temp;
+                })
+                sethidden(false)
+            }
+        }) 
         return ()=>{
             sock.disconnect()
         }
 
-    },[])
+    },[sender_user_id])
 
     if (status === "loading") {
         return <Loading/>
@@ -87,6 +110,7 @@ function ChatPage(){
         if (!socket || !sender_user_id || !msg) return
         socket.emit("broadcast",id,msg,sender_user_id,session.user.email)
         setmsg("")
+        socket.emit("typing_indicator","close",sender_user_id,id)
     }
     const deletechat=async ()=>{
         const res = await fetch(`/api/session?id=${id}`, {
@@ -99,6 +123,15 @@ function ChatPage(){
     function checkkey(e) {
         if(e.key=="Enter") {
             sendmessage()
+        }
+    }
+    function setchange(e) {
+        if (!socket || !sender_user_id) return
+        setmsg(e);
+        if(e=="") {
+            socket.emit("typing_indicator","close",sender_user_id,id)
+        }else{
+            socket.emit("typing_indicator","open",sender_user_id,id)
         }
     }
     
@@ -117,7 +150,7 @@ function ChatPage(){
                 {participants.map(e => (
                 <span className="shrink-0" key={e}>{e} </span>
                 ))}
-                </div><ArrowRight size={16} color="#1D546D" /><span className="bg-gray-500 rounded-full p-2">{participants.length}</span></div>
+                </div><ArrowRight size={16} color="#1D546D" /><span className="bg-gray-500 rounded-full p-2">{typing_users.size}</span></div>
         </div>
         <div className="flex-1 overflow-y-auto scrollbar-hide px-2 pb-20 md:max-h-screen">
             {chats.map(e=>{
@@ -127,10 +160,14 @@ function ChatPage(){
                     return <Reply key={e._id} user={e.sender_user_id} time={e.created_at} text={e.text}></Reply>
                 }
         })}
-        <div className="opacity-0" ref={bottomRef}>----</div>
+        <div className={hidden?"opacity-0 md: relative top-0 inline-block":"md: relative top-0 inline-block"}>
+        <Typing_indicator></Typing_indicator>
+        </div>
+        <span className="opacity-0 none" ref={bottomRef}>----
+        </span>
         </div>
         <div className="fixed bottom-0 left-0 right-0 z-30 flex items-center gap-2 border-t bg-white p-3 md:left-80 lg:left-1/4">
-            <input onChange={(e)=>setmsg(e.target.value)} onKeyDown={(e)=>checkkey(e)} type="text" name="msg" id="msg" placeholder="Enter a message" className="min-w-0 flex-1 border-2 border-dashed text-left px-3 py-2 rounded-3xl align-bottom border-black" value={msg} />
+            <input onChange={(e)=>setchange(e.target.value)} onKeyDown={(e)=>checkkey(e)} type="text" name="msg" id="msg" placeholder="Enter a message" className="min-w-0 flex-1 border-2 border-dashed text-left px-3 py-2 rounded-3xl align-bottom border-black" value={msg} />
             <button onClick={sendmessage} className="shrink-0 p-0.6 hover:cursor-pointer"><Send size={24} color="#1D546D" /></button>
         </div>
         </div>
